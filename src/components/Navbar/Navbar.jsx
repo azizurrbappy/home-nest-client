@@ -26,7 +26,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="shadow-sm">
+      <nav className="shadow-sm sticky top-0 z-50 backdrop-blur-2xl">
         <div className="navbar lg:max-w-11/12 px-4 mx-auto">
           <div className="navbar-start">
             <div className="dropdown">

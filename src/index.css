@@ -5,9 +5,9 @@
 }
 
 @import 'tailwindcss';
-@plugin "daisyui" {
-  themes: light --default;
-}
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@plugin "daisyui";
 
 .check {
   @apply border border-red-500;

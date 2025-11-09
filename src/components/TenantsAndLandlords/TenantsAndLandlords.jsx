@@ -14,10 +14,10 @@ const TenantsAndLandlords = () => {
         />
       </div>
       <div className="sm:w-111">
-        <h3 className="text-[#000929] text-4xl font-bold mb-5">
+        <h3 className="text-[#000929] dark:text-white  text-4xl font-bold mb-5">
           We make it easy for tenants and landlords.
         </h3>
-        <p className="text-[#000929] mb-5">
+        <p className="text-[#000929] mb-5 dark:text-gray-400">
           Whether it’s selling your current home, getting financing, or buying a
           new home, we make it easy and efficient. The best part? you’ll save a
           bunch of money and time with our services.

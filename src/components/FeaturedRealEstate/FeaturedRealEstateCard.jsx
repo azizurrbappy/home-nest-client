@@ -65,7 +65,7 @@ const FeaturedRealEstateCard = ({ data }) => {
               )}
             </span>
           </div>
-          <h2 className="text-2xl font-extrabold text-[#000929]">
+          <h2 className="text-2xl font-extrabold text-[#000929] dark:text-white">
             {addEllipsisAfterWords(propertyName, 3)}
           </h2>
           <p className="text-gray-500">
@@ -86,7 +86,7 @@ const FeaturedRealEstateCard = ({ data }) => {
               <SlSizeFullscreen color="#7065F0" size={17} /> {flatSize}
             </span>
           </div>
-          <Link className="mt-5 mx-auto text-[#000929] flex items-center hover:gap-2 hover:text-[#7065F0] duration-200 hover:underline">
+          <Link className="mt-5 mx-auto text-[#000929] dark:text-white flex items-center hover:gap-2 hover:text-[#7065F0] duration-200 hover:underline">
             View Details <GoArrowRight size={18} />
           </Link>
         </div>

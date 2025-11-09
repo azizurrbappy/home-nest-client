@@ -29,10 +29,10 @@ const Home = () => {
 
       <Container className="my-20">
         <div className="w-fit mx-auto text-center mb-16">
-          <h1 className="text-[#000929] font-bold lg:text-4xl text-3xl mb-2">
+          <h1 className="text-[#000929] font-bold lg:text-4xl text-3xl mb-2 dark:text-white">
             Featured Real Estate
           </h1>
-          <p className="text-[#000929]">
+          <p className="text-[#000929] dark:text-white">
             Some of our picked properties near you location.
           </p>
         </div>

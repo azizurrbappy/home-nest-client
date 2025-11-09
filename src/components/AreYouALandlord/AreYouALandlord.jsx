@@ -19,7 +19,7 @@ const AreYouALandlord = () => {
           action=""
         >
           <input
-            className="input outline-0 border-0 shadow-none w-xs"
+            className="input outline-0 border-0 shadow-none w-xs dark:bg-white dark:text-black"
             type="email"
             required
             placeholder="mail@site.com"

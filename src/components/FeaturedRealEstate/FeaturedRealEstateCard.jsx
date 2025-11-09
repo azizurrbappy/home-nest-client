@@ -34,7 +34,7 @@ const FeaturedRealEstateCard = ({ data }) => {
 
   return (
     <>
-      <Link className="card bg-base-100 w-96 shadow-sm">
+      <div className="card bg-base-100 w-96 shadow-sm">
         <figure
           style={{
             backgroundImage: `url('${propertyImage}')`,
@@ -90,7 +90,7 @@ const FeaturedRealEstateCard = ({ data }) => {
             View Details <GoArrowRight size={18} />
           </Link>
         </div>
-      </Link>
+      </div>
     </>
   );
 };

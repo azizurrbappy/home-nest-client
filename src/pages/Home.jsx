@@ -5,6 +5,7 @@ import FeaturedRealEstateCard from '../components/FeaturedRealEstate/FeaturedRea
 import useAxios from '../hooks/useAxios';
 import TenantsAndLandlords from '../components/TenantsAndLandlords/TenantsAndLandlords';
 import WhyChooseUs from '../components/WhyChooseUs/WhyChooseUs';
+import AreYouALandlord from '../components/AreYouALandlord/AreYouALandlord';
 
 const Home = () => {
   const axios = useAxios();
@@ -46,6 +47,10 @@ const Home = () => {
             : ''}
         </section>
       </Container>
+
+      <section className="bg-[#f9f9fd] py-16">
+        <AreYouALandlord></AreYouALandlord>
+      </section>
     </>
   );
 };

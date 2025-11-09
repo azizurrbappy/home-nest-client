@@ -3,6 +3,8 @@ import Slider from '../components/Slider/Slider';
 import Container from '../components/Container/Container';
 import FeaturedRealEstateCard from '../components/FeaturedRealEstate/FeaturedRealEstateCard';
 import useAxios from '../hooks/useAxios';
+import TenantsAndLandlords from '../components/TenantsAndLandlords/TenantsAndLandlords';
+import WhyChooseUs from '../components/WhyChooseUs/WhyChooseUs';
 
 const Home = () => {
   const axios = useAxios();
@@ -20,6 +22,10 @@ const Home = () => {
         <Slider></Slider>
       </Container>
 
+      <TenantsAndLandlords></TenantsAndLandlords>
+
+      <WhyChooseUs></WhyChooseUs>
+
       <Container className="my-20">
         <div className="w-fit mx-auto text-center mb-16">
           <h1 className="text-[#000929] font-bold lg:text-4xl text-3xl mb-2">
@@ -30,7 +36,7 @@ const Home = () => {
           </p>
         </div>
 
-        <section className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 w-fit mx-auto">
+        <section className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 w-fit mx-auto">
           {freData
             ? freData.map(data => (
                 <div key={data._id}>

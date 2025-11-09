@@ -34,7 +34,7 @@ const FeaturedRealEstateCard = ({ data }) => {
 
   return (
     <>
-      <div className="card bg-base-100 w-96 shadow-sm">
+      <Link className="card bg-base-100 w-96 shadow-sm">
         <figure
           style={{
             backgroundImage: `url('${propertyImage}')`,
@@ -66,13 +66,13 @@ const FeaturedRealEstateCard = ({ data }) => {
             </span>
           </div>
           <h2 className="text-2xl font-extrabold text-[#000929]">
-            {propertyName}
+            {addEllipsisAfterWords(propertyName, 3)}
           </h2>
           <p className="text-gray-500">
             {addEllipsisAfterWords(shortDescription, 10)}
           </p>
           <p className="text-gray-500 flex items-center gap-2">
-            <FiMapPin /> 2821 Lake Sevilla, Palm Harbor, TX
+            <FiMapPin /> {location}
           </p>
           <hr className="my-4 text-gray-200" />
           <div className="flex justify-between items-center">
@@ -90,7 +90,7 @@ const FeaturedRealEstateCard = ({ data }) => {
             View Details <GoArrowRight size={18} />
           </Link>
         </div>
-      </div>
+      </Link>
     </>
   );
 };

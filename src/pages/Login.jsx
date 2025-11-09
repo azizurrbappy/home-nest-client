@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import Container from '../components/Container/Container';
 import Logo from '../assets/logo.png';
-import { Link } from 'react-router';
+import { Link, NavLink } from 'react-router';
+import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const { loading, setLoading, signInUser } = useContext(AuthContext);
+
   return (
-    <Container className="flex flex-col justify-center items-center h-[calc(100vh-50vh)]">
+    <Container className="flex flex-col justify-center items-center h-[calc(100vh-40vh)]">
       <Link className="flex items-center gap-1 mb-5">
         <img src={Logo} alt="HomeNest" />
         <h2 className="text-lg font-bold">HomeNest</h2>
@@ -15,12 +19,22 @@ const Login = () => {
       <form className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 space-y-2">
         <div className="space-y-1.5">
           <label className="label">Email</label>
-          <input type="email" className="input" placeholder="Email" />
+          <input
+            name="email"
+            type="email"
+            className="input"
+            placeholder="Email"
+          />
         </div>
 
         <div className="space-y-1.5">
           <label className="label">Password</label>
-          <input type="password" className="input" placeholder="Password" />
+          <input
+            name="password"
+            type="password"
+            className="input"
+            placeholder="Password"
+          />
         </div>
 
         <input
@@ -67,9 +81,9 @@ const Login = () => {
 
         <p className="text-center text-sm">
           Don't have an account?{'  '}
-          <Link to="signup" className="text-[#7065f0]">
+          <NavLink to="../signup" className="text-[#7065f0]">
             Signup now
-          </Link>
+          </NavLink>
         </p>
       </form>
     </Container>

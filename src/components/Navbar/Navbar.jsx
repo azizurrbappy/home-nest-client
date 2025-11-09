@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { RiMenu2Fill } from 'react-icons/ri';
 import Logo from '../../assets/logo.png';
 import { Link, NavLink } from 'react-router';
+import { AuthContext } from '../../context/AuthContext';
+import { TbDoorExit } from 'react-icons/tb';
+import { toast } from 'react-toastify';
 
 const Navbar = ({ themeController, setThemeController }) => {
+  const { user, loading, userLogout } = useContext(AuthContext);
+  const [logOutLoading, setLogOutLoading] = useState(false);
+
+  const handleUserSignOut = async () => {
+    setLogOutLoading(true);
+    try {
+      await userLogout();
+      setLogOutLoading(false);
+    } catch (error) {
+      toast.error(error.code, error.message);
+      setLogOutLoading(false);
+    }
+  };
+
   const handleThemeController = () => {
     setThemeController(!themeController);
   };
@@ -104,12 +121,55 @@ const Navbar = ({ themeController, setThemeController }) => {
               </svg>
             </label>
 
-            <Link
-              to="login"
-              className="btn bg-[#7065F0] text-white rounded-md border-0 shadow-none h-9 px-6"
-            >
-              Login
-            </Link>
+            {loading ? (
+              <div className="skeleton rounded-full h-10 w-10"></div>
+            ) : user ? (
+              <div className="dropdown dropdown-end">
+                <div tabIndex={0} role="button" className="w-10 h-10 ">
+                  <figure
+                    className="w-10 h-10 rounded-full border-2 border-[#e0def7] cursor-pointer"
+                    style={{
+                      backgroundImage: `url('https://i.ibb.co.com/39txFWKS/photo-6217529288190706891-y.jpg')`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      backgroundRepeat: 'no-repeat',
+                    }}
+                  ></figure>
+                </div>
+                <ul
+                  tabIndex="-1"
+                  className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+                >
+                  <p className="text-center font-semibold text-base">
+                    {user.displayName}
+                  </p>
+                  <p className="text-center">{user.email}</p>
+                  <hr className="text-[#e0def7] my-2" />
+                  <li>
+                    <button
+                      className="text-red-500 flex items-center justify-between"
+                      onClick={handleUserSignOut}
+                    >
+                      <div className="flex items-center gap-2">
+                        <TbDoorExit /> Logout{' '}
+                      </div>
+                      <div>
+                        {logOutLoading && (
+                          <span className="loading loading-spinner loading-xs"></span>
+                        )}
+                      </div>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <Link
+                to="login"
+                className="btn bg-[#7065F0] text-white rounded-md border-0 shadow-none h-9 px-6"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </nav>

@@ -36,7 +36,7 @@ const Home = () => {
           </p>
         </div>
 
-        <section className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 w-fit mx-auto">
+        <section className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-6 w-fit mx-auto">
           {freData
             ? freData.map(data => (
                 <div key={data._id}>

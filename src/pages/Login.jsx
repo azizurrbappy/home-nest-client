@@ -3,10 +3,32 @@ import Container from '../components/Container/Container';
 import Logo from '../assets/logo.png';
 import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../context/AuthContext';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [emailRegEx, setEmailRegEx] = useState(false);
+  const [passRegEx, setPassRegEx] = useState(false);
   const { loading, setLoading, signInUser } = useContext(AuthContext);
+
+  const handleSignIn = e => {
+    e.preventDefault();
+
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    const emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    if (!emailRegex.test(email)) {
+      return setEmailRegEx(true);
+    }
+
+    if (!passwordRegex.test(password)) {
+      return setPassRegEx(true);
+    }
+  };
 
   return (
     <Container className="flex flex-col justify-center items-center h-[calc(100vh-40vh)]">
@@ -16,25 +38,52 @@ const Login = () => {
         <h2>Login</h2>
       </Link>
 
-      <form className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 space-y-2">
+      <form
+        onSubmit={handleSignIn}
+        className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 space-y-2"
+      >
         <div className="space-y-1.5">
           <label className="label">Email</label>
           <input
             name="email"
+            required
             type="email"
             className="input"
             placeholder="Email"
           />
+          {emailRegEx && (
+            <p className="text-red-500">Enter valid email address</p>
+          )}
         </div>
 
-        <div className="space-y-1.5">
+        <div className="space-y-1.5 relative">
           <label className="label">Password</label>
           <input
             name="password"
-            type="password"
+            required
+            type={isShowPassword ? 'text' : 'password'}
             className="input"
             placeholder="Password"
           />
+          {passRegEx && (
+            <p className="text-red-400">
+              Must be more than 8 characters, including
+              <br />
+              At least one number
+              <br />
+              At least one lowercase letter
+              <br />
+              At least one uppercase letter
+            </p>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setIsShowPassword(!isShowPassword)}
+            className=" absolute top-9 right-4 cursor-pointer z-50"
+          >
+            {isShowPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+          </button>
         </div>
 
         <input

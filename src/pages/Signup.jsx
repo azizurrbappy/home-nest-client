@@ -47,6 +47,7 @@ const Signup = () => {
       });
 
       setLoading(false);
+      e.target.reset();
       toast.success('Signed up successfully');
     } catch (error) {
       setLoading(false);

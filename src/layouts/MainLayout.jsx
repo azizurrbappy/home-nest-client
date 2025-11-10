@@ -8,7 +8,7 @@ const MainLayout = () => {
 
   return (
     <>
-      <main
+      <section
         className="flex flex-col min-h-screen"
         data-theme={themeController ? 'dark' : 'light'}
       >
@@ -20,7 +20,7 @@ const MainLayout = () => {
           <Outlet></Outlet>
         </section>
         <Footer></Footer>
-      </main>
+      </section>
     </>
   );
 };

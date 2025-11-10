@@ -8,7 +8,7 @@ import { FaXTwitter } from 'react-icons/fa6';
 const Footer = () => {
   return (
     <>
-      <footer className="max-sm:px-4 pt-[80px]">
+      <footer className="max-sm:px-4 pt-20">
         <Container className="footer sm:footer-horizontal text-base-content">
           <aside>
             <Link className="flex items-center gap-1">

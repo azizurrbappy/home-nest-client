@@ -5,7 +5,7 @@ import { FiMapPin } from 'react-icons/fi';
 import { GoArrowRight } from 'react-icons/go';
 import { MdBed } from 'react-icons/md';
 import { SlSizeFullscreen } from 'react-icons/sl';
-import { Link } from 'react-router';
+import { Link, NavLink } from 'react-router';
 
 const FeaturedRealEstateCard = ({ data }) => {
   const [isFav, setIsFav] = useState(false);
@@ -19,6 +19,7 @@ const FeaturedRealEstateCard = ({ data }) => {
     beds,
     bathroom,
     flatSize,
+    _id,
   } = data;
 
   const addEllipsisAfterWords = (text, wordCount = 3) => {
@@ -65,9 +66,12 @@ const FeaturedRealEstateCard = ({ data }) => {
               )}
             </span>
           </div>
-          <h2 className="text-2xl font-extrabold text-[#000929] dark:text-white">
+          <NavLink
+            to={`/property/${_id}`}
+            className="text-2xl font-extrabold text-[#000929] dark:text-white"
+          >
             {addEllipsisAfterWords(propertyName, 3)}
-          </h2>
+          </NavLink>
           <p className="text-gray-500">
             {addEllipsisAfterWords(shortDescription, 10)}
           </p>
@@ -86,9 +90,12 @@ const FeaturedRealEstateCard = ({ data }) => {
               <SlSizeFullscreen color="#7065F0" size={17} /> {flatSize}
             </span>
           </div>
-          <Link className="mt-5 mx-auto text-[#000929] dark:text-white flex items-center hover:gap-2 hover:text-[#7065F0] duration-200 hover:underline">
+          <NavLink
+            to={`/property/${_id}`}
+            className="mt-5 mx-auto text-[#000929] dark:text-white flex items-center hover:gap-2 hover:text-[#7065F0] duration-200 hover:underline"
+          >
             View Details <GoArrowRight size={18} />
-          </Link>
+          </NavLink>
         </div>
       </div>
     </>

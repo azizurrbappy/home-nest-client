@@ -6,6 +6,7 @@ import Login from '../pages/login';
 import Signup from '../pages/Signup';
 import PrivateRoute from './PrivateRoute';
 import LoggedUserRoute from './LoggedUserRoute';
+import PropertyDetails from '../pages/PropertyDetails';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,14 @@ const router = createBrowserRouter([
             <Signup></Signup>
           </LoggedUserRoute>
         ),
+      },
+      {
+        path: '/property/:id',
+        element: <PropertyDetails></PropertyDetails>,
+      },
+      {
+        path: '/my-ratings',
+        element: <p>hlo</p>,
       },
     ],
   },

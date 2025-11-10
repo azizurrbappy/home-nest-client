@@ -15,10 +15,6 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  if (user) {
-    console.log(user);
-  }
-
   // Firebase
   const googleProvider = new GoogleAuthProvider();
 

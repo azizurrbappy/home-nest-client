@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Container from '../components/Container/Container';
 import Logo from '../assets/logo.png';
-import { Link, NavLink } from 'react-router';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
@@ -13,6 +13,9 @@ const Signup = () => {
   const [passRegEx, setPassRegEx] = useState(false);
   const { signupUser, signInWithGoogle, setLoading, loading } =
     useContext(AuthContext);
+  const location = useLocation();
+  const from = location.state || '/';
+  const navigate = useNavigate();
 
   const handleSignup = async e => {
     e.preventDefault();
@@ -29,11 +32,11 @@ const Signup = () => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
     if (!emailRegex.test(email)) {
-      return setEmailRegEx(true);
+      return setEmailRegEx(true), setLoading(false);
     }
 
     if (!passwordRegex.test(password)) {
-      return setPassRegEx(true);
+      return setPassRegEx(true), setLoading(false);
     }
 
     try {
@@ -49,6 +52,7 @@ const Signup = () => {
       setLoading(false);
       e.target.reset();
       toast.success('Signed up successfully');
+      navigate(from);
     } catch (error) {
       setLoading(false);
       toast.error(error.code, error.message);
@@ -65,6 +69,7 @@ const Signup = () => {
 
       setLoading(false);
       toast.success('Google signin successfully');
+      navigate(from);
     } catch (error) {
       setLoading(false);
       toast.error(error.code, error.message);
@@ -111,7 +116,7 @@ const Signup = () => {
             name="email"
             required
             type="email"
-            className="input"
+            className="input validator"
             placeholder="Email"
           />
           {emailRegEx && (
@@ -125,7 +130,7 @@ const Signup = () => {
             name="password"
             required
             type={isShowPassword ? 'text' : 'password'}
-            className="input"
+            className="input validator"
             placeholder="Password"
           />
           {passRegEx && (

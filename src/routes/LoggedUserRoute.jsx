@@ -3,7 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import { Navigate, useLocation } from 'react-router';
 import { DotLoader } from 'react-spinners';
 
-const PrivetRoute = ({ children }) => {
+const LoggedUserRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
   const location = useLocation();
 
@@ -15,11 +15,11 @@ const PrivetRoute = ({ children }) => {
     );
   }
 
-  if (!user) {
-    return <Navigate to="/login" state={location.pathname}></Navigate>;
+  if (user) {
+    return <Navigate to="/" state={location.pathname}></Navigate>;
   }
 
   return children;
 };
 
-export default PrivetRoute;
+export default LoggedUserRoute;

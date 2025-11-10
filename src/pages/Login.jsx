@@ -1,18 +1,24 @@
 import React, { useContext, useState } from 'react';
 import Container from '../components/Container/Container';
 import Logo from '../assets/logo.png';
-import { Link, NavLink } from 'react-router';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../context/AuthContext';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [emailRegEx, setEmailRegEx] = useState(false);
   const [passRegEx, setPassRegEx] = useState(false);
-  const { loading, setLoading, signInUser } = useContext(AuthContext);
+  const { loading, setLoading, signInUser, signInWithGoogle } =
+    useContext(AuthContext);
+  const location = useLocation();
+  const from = location.state || '/';
+  const navigate = useNavigate();
 
-  const handleSignIn = e => {
+  const handleSignIn = async e => {
     e.preventDefault();
+    setLoading(true);
 
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -22,11 +28,42 @@ const Login = () => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
     if (!emailRegex.test(email)) {
-      return setEmailRegEx(true);
+      return setEmailRegEx(true), setLoading(false);
     }
 
     if (!passwordRegex.test(password)) {
-      return setPassRegEx(true);
+      return setPassRegEx(true), setLoading(false);
+    }
+
+    try {
+      const userCredential = await signInUser(email, password);
+      const user = userCredential.user;
+      const token = userCredential.accessToken;
+
+      setLoading(false);
+      e.target.reset();
+      navigate(from);
+    } catch (error) {
+      setLoading(false);
+      toast.error(error.code, error.message);
+      throw error;
+    }
+  };
+
+  const handleGoogleSignin = async () => {
+    setLoading(true);
+
+    try {
+      const credential = await signInWithGoogle();
+      const token = credential.accessToken;
+
+      setLoading(false);
+      toast.success('Google signin successfully');
+      navigate(from);
+    } catch (error) {
+      setLoading(false);
+      toast.error(error.code, error.message);
+      throw error;
     }
   };
 
@@ -48,7 +85,7 @@ const Login = () => {
             name="email"
             required
             type="email"
-            className="input"
+            className="input validator"
             placeholder="Email"
           />
           {emailRegEx && (
@@ -62,7 +99,7 @@ const Login = () => {
             name="password"
             required
             type={isShowPassword ? 'text' : 'password'}
-            className="input"
+            className="input validator"
             placeholder="Password"
           />
           {passRegEx && (
@@ -86,15 +123,17 @@ const Login = () => {
           </button>
         </div>
 
-        <input
-          className="btn bg-[#7065f0] text-white rounded-full mt-2 mb-0"
-          type="submit"
-          value="Login"
-        />
+        <button className="btn bg-[#7065f0] text-white rounded-full mt-2 mb-0">
+          Login
+          {loading && (
+            <span className="loading loading-spinner loading-xs"></span>
+          )}
+        </button>
 
         <div className="divider my-3 text-gray-500">Or sign in with</div>
 
         <button
+          onClick={handleGoogleSignin}
           type="button"
           className="btn bg-white text-black border-[#e5e5e5] rounded-full"
         >

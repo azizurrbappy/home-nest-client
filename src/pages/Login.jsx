@@ -5,6 +5,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router';
 import { AuthContext } from '../context/AuthContext';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import useAxios from '../hooks/useAxios';
 
 const Login = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -12,13 +13,13 @@ const Login = () => {
   const [passRegEx, setPassRegEx] = useState(false);
   const { loading, setLoading, signInUser, signInWithGoogle } =
     useContext(AuthContext);
-  const location = useLocation();
-  const from = location.state || '/';
+  const { state } = useLocation();
+  const from = state || '/';
   const navigate = useNavigate();
+  const axios = useAxios();
 
   const handleSignIn = async e => {
     e.preventDefault();
-    setLoading(true);
 
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -35,31 +36,35 @@ const Login = () => {
       return setPassRegEx(true), setLoading(false);
     }
 
-    try {
-      const userCredential = await signInUser(email, password);
-      const user = userCredential.user;
-      const token = userCredential.accessToken;
-
-      setLoading(false);
-      e.target.reset();
-      navigate(from);
-    } catch (error) {
-      setLoading(false);
-      toast.error(error.code, error.message);
-      throw error;
-    }
+    signInUser(email, password)
+      .then(res => {
+        navigate(from);
+        e.target.reset();
+        setLoading(false);
+      })
+      .catch(err => {
+        toast.error(err.message);
+      });
   };
 
   const handleGoogleSignin = async () => {
-    setLoading(true);
-
     try {
       const credential = await signInWithGoogle();
+      const user = credential.user;
       const token = credential.accessToken;
 
-      setLoading(false);
-      toast.success('Google signin successfully');
-      navigate(from);
+      const newUser = {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+      };
+
+      axios.post('/users', newUser).then(res => {
+        if (res.data.insertedId) {
+          setLoading(false);
+          navigate(from);
+        }
+      });
     } catch (error) {
       setLoading(false);
       toast.error(error.code, error.message);

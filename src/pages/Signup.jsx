@@ -6,6 +6,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import { updateProfile } from 'firebase/auth';
+import useAxios from '../hooks/useAxios';
 
 const Signup = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -16,6 +17,7 @@ const Signup = () => {
   const location = useLocation();
   const from = location.state || '/';
   const navigate = useNavigate();
+  const axios = useAxios();
 
   const handleSignup = async e => {
     e.preventDefault();
@@ -49,13 +51,24 @@ const Signup = () => {
         photoURL: photoURL,
       });
 
-      setLoading(false);
+      const newUser = {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+      };
+
+      axios.post('/users', newUser).then(res => {
+        if (res.data.insertedId) {
+          setLoading(false);
+          toast.success('Signed up successfully!');
+          navigate(from);
+        }
+      });
+
       e.target.reset();
-      toast.success('Signed up successfully');
-      navigate(from);
     } catch (error) {
       setLoading(false);
-      toast.error(error.code, error.message);
+      toast.error(error.message);
       throw error;
     }
   };
@@ -65,11 +78,21 @@ const Signup = () => {
 
     try {
       const credential = await signInWithGoogle();
+      const user = credential.user;
       const token = credential.accessToken;
 
-      setLoading(false);
-      toast.success('Google signin successfully');
-      navigate(from);
+      const newUser = {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+      };
+
+      axios.post('/users', newUser).then(res => {
+        if (res.data.insertedId) {
+          setLoading(false);
+          navigate(from);
+        }
+      });
     } catch (error) {
       setLoading(false);
       toast.error(error.code, error.message);
@@ -104,6 +127,7 @@ const Signup = () => {
           <label className="label">Photo URL</label>
           <input
             name="photoURL"
+            required
             type="text"
             className="input"
             placeholder="Photo URL"

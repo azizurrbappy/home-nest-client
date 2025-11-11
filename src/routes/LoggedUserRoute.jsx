@@ -4,19 +4,12 @@ import { Navigate, useLocation } from 'react-router';
 import { DotLoader } from 'react-spinners';
 
 const LoggedUserRoute = ({ children }) => {
-  const { user, loading } = useContext(AuthContext);
-  const location = useLocation();
-
-  if (loading) {
-    return (
-      <div className="flex h-[calc(100vh-50vh)] justify-center items-center">
-        <DotLoader color="#7065f0" />
-      </div>
-    );
-  }
+  const { user } = useContext(AuthContext);
+  const { state } = useLocation();
+  const navigate = state || '/';
 
   if (user) {
-    return <Navigate to="/" state={location.pathname}></Navigate>;
+    return <Navigate to={navigate}></Navigate>;
   }
 
   return children;

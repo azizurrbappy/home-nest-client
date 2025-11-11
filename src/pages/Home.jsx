@@ -6,10 +6,13 @@ import useAxios from '../hooks/useAxios';
 import TenantsAndLandlords from '../components/TenantsAndLandlords/TenantsAndLandlords';
 import WhyChooseUs from '../components/WhyChooseUs/WhyChooseUs';
 import AreYouALandlord from '../components/AreYouALandlord/AreYouALandlord';
+import { DotLoader } from 'react-spinners';
+import { useNavigate } from 'react-router';
 
 const Home = () => {
   const axios = useAxios();
   const [freData, setFREData] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios('/featuredrealestate').then(data => {
@@ -38,13 +41,17 @@ const Home = () => {
         </div>
 
         <section className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-6 w-fit mx-auto">
-          {freData
-            ? freData.map(data => (
-                <div key={data._id}>
-                  <FeaturedRealEstateCard data={data}></FeaturedRealEstateCard>
-                </div>
-              ))
-            : ''}
+          {freData ? (
+            freData.slice(0, 6).map(data => (
+              <div key={data._id}>
+                <FeaturedRealEstateCard data={data}></FeaturedRealEstateCard>
+              </div>
+            ))
+          ) : (
+            <div className="flex h-[calc(100vh-50vh)] justify-center items-center">
+              <DotLoader color="#7065f0" />
+            </div>
+          )}
         </section>
       </Container>
 

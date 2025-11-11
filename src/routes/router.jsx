@@ -7,6 +7,8 @@ import Signup from '../pages/Signup';
 import PrivateRoute from './PrivateRoute';
 import LoggedUserRoute from './LoggedUserRoute';
 import PropertyDetails from '../pages/PropertyDetails';
+import AllProperties from '../pages/AllProperties';
+import AddProperty from '../pages/AddProperty';
 
 const router = createBrowserRouter([
   {
@@ -34,8 +36,28 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: '/all-properties',
+        element: (
+          <PrivateRoute>
+            <AllProperties></AllProperties>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/add-properties',
+        element: (
+          <PrivateRoute>
+            <AddProperty></AddProperty>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: '/property/:id',
-        element: <PropertyDetails></PropertyDetails>,
+        element: (
+          <PrivateRoute>
+            <PropertyDetails></PropertyDetails>
+          </PrivateRoute>
+        ),
       },
       {
         path: '/my-ratings',

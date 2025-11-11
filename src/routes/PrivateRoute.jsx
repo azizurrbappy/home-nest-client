@@ -5,7 +5,7 @@ import { DotLoader } from 'react-spinners';
 
 const PrivetRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   if (loading) {
     return (
@@ -16,7 +16,7 @@ const PrivetRoute = ({ children }) => {
   }
 
   if (!user) {
-    return <Navigate to="/login" state={location.pathname}></Navigate>;
+    return <Navigate to="/login" state={pathname}></Navigate>;
   }
 
   return children;

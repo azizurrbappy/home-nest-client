@@ -9,6 +9,7 @@ import LoggedUserRoute from './LoggedUserRoute';
 import PropertyDetails from '../pages/PropertyDetails';
 import AllProperties from '../pages/AllProperties';
 import AddProperty from '../pages/AddProperty';
+import MyProperties from '../pages/MyProperties';
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddProperty></AddProperty>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/my-properties',
+        element: (
+          <PrivateRoute>
+            <MyProperties></MyProperties>
           </PrivateRoute>
         ),
       },

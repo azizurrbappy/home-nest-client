@@ -11,6 +11,9 @@ import AllProperties from '../pages/AllProperties';
 import AddProperty from '../pages/AddProperty';
 import MyProperties from '../pages/MyProperties';
 import UpdateProperty from '../pages/UpdateProperty';
+import axios from '../hooks/useAxios';
+import MyRating from '../pages/MyRating';
+import Page404 from '../components/Page404/Page404';
 
 const router = createBrowserRouter([
   {
@@ -79,9 +82,17 @@ const router = createBrowserRouter([
       },
       {
         path: '/my-ratings',
-        element: <p>hlo</p>,
+        element: (
+          <PrivateRoute>
+            <MyRating></MyRating>
+          </PrivateRoute>
+        ),
       },
     ],
+  },
+  {
+    path: '*',
+    element: <Page404></Page404>,
   },
 ]);
 

@@ -2,7 +2,7 @@
 
 ### 🌐 Live Site URL
 
-🔗 [https://homenest-client.netlify.app](https://homenest-client.netlify.app)
+🔗 [https://homenest-client.netlify.app](https://home-nest-b12a10.netlify.app)
 
 ---
 

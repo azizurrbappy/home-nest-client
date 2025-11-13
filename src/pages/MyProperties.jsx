@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import Container from '../components/Container/Container';
 import { AuthContext } from '../context/AuthContext';
 import useAxios from '../hooks/useAxios';
@@ -6,14 +6,15 @@ import useTruncateText from '../hooks/useTruncateText';
 import { FiEdit } from 'react-icons/fi';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { MdOutlineMoreVert } from 'react-icons/md';
-import { NavLink } from 'react-router';
-import Swal from 'sweetalert2';
+import { Navigate, NavLink, useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 const MyProperties = () => {
   const { user } = use(AuthContext);
   const axios = useAxios();
   const smallText = useTruncateText();
   const [data, setData] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios(`/properties?email=${user.email}`).then(res => {
@@ -21,7 +22,20 @@ const MyProperties = () => {
     });
   }, []);
 
-  const handleDelete = () => {};
+  const handleDelete = id => {
+    const propertyID = id;
+
+    axios.delete(`/properties/${propertyID}`).then(res => {
+      if (res.data.deletedCount > 0) {
+        const deleteProperty = data.filter(
+          property => propertyID !== property._id
+        );
+        setData(deleteProperty);
+
+        toast.success('Property deleted successfully!');
+      }
+    });
+  };
 
   return (
     <>
@@ -46,8 +60,11 @@ const MyProperties = () => {
                       alt=""
                     />
                     <div className="space-y-1.5">
-                      <h2 className="text-xl font-semibold">
+                      <h2 className="text-xl font-semibold flex gap-2">
                         {item.propertyName}
+                        <h4 className="text-[#7065f0]">
+                          $({item.propertyPrice})
+                        </h4>
                       </h2>
                       <p className="text-xs font-medium text-center opacity-50">
                         {item.description && smallText(item.description, 6)}
@@ -59,15 +76,19 @@ const MyProperties = () => {
                   </div>
 
                   <div className="space-x-3">
-                    <div className="tooltip" data-tip="Update">
+                    <NavLink
+                      to={`/update-property/${item._id}`}
+                      className="tooltip"
+                      data-tip="Update"
+                    >
                       <button className="btn btn-soft btn-primary p-fit h-fit p-2 rounded-full">
                         <FiEdit size={20} />
                       </button>
-                    </div>
+                    </NavLink>
 
                     <div className="tooltip" data-tip="Delete">
                       <button
-                        onClick={handleDelete}
+                        onClick={() => handleDelete(item._id)}
                         className="btn btn-soft btn-error p-fit h-fit p-2 rounded-full"
                       >
                         <FaRegTrashAlt size={20} />
@@ -86,6 +107,15 @@ const MyProperties = () => {
                 </section>
               </div>
             ))}
+
+          {data && data.length == 0 && (
+            <div
+              role="alert"
+              className="alert alert-warning alert-soft mx-auto w-lg"
+            >
+              <span>Warning: Please add first property!</span>
+            </div>
+          )}
         </section>
       </Container>
     </>

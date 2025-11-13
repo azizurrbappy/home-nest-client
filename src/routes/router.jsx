@@ -10,6 +10,7 @@ import PropertyDetails from '../pages/PropertyDetails';
 import AllProperties from '../pages/AllProperties';
 import AddProperty from '../pages/AddProperty';
 import MyProperties from '../pages/MyProperties';
+import UpdateProperty from '../pages/UpdateProperty';
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyProperties></MyProperties>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/update-property/:id',
+        element: (
+          <PrivateRoute>
+            <UpdateProperty></UpdateProperty>
           </PrivateRoute>
         ),
       },

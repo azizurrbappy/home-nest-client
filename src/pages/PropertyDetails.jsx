@@ -14,7 +14,6 @@ const PropertyDetails = () => {
       setData(data.data);
     });
   }, []);
-
   return (
     <>
       {data ? (
@@ -81,8 +80,10 @@ const PropertyDetails = () => {
                         4.7
                       </div>
                       <div>
-                        -----------
-                        <p className="text-sm text-slate-500 mt-1">3 reviews</p>
+                        --------
+                        <p className="text-sm text-right text-slate-500 mt-1">
+                          3 reviews
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -95,7 +96,7 @@ const PropertyDetails = () => {
                       <div>
                         <label className="block text-sm font-medium text-slate-700 mb-2">
                           Your Rating
-                          {/* --------- */}
+                          <div>-----------</div>
                         </label>
                       </div>
                       <div>
